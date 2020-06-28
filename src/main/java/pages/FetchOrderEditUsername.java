@@ -8,7 +8,7 @@ import utils.BaseTest;
 
 import static org.junit.Assert.assertEquals;
 
-public class EditOrderUsername extends BaseTest {
+public class FetchOrderEditUsername extends BaseTest {
     @Test
     public  void  xssTest() throws InterruptedException {
         // 1. Login
@@ -20,7 +20,7 @@ public class EditOrderUsername extends BaseTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // 2. Go to category page and click on action button
+        // 2. Go to order page and click on action button
         WebElement dropDownMenuButton = driver.findElement(By.id("navOrder"));
         dropDownMenuButton.click();
         WebElement orderButton = driver.findElement(By.xpath("/html[1]/body[1]/nav[1]/div[1]/div[2]/ul[1]/li[5]/ul[1]/li[2]/a[1]"));
@@ -31,12 +31,12 @@ public class EditOrderUsername extends BaseTest {
         WebElement dropDownEditButton = driver.findElement(By.id("editOrderModalBtn"));
         dropDownEditButton.click();
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        // 3. Change client's username inserting a XSS attack vector
+        // 3. Change client's username and contact by inserting a XSS attack vector
         WebElement editClientName = driver.findElement(By.id("clientName"));
         WebElement editClientNumber = driver.findElement(By.id("clientContact"));
         editClientName.clear();
@@ -47,32 +47,34 @@ public class EditOrderUsername extends BaseTest {
         WebElement saveOrderButton = driver.findElement(By.id("editOrderBtn"));
         saveOrderButton.click();
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         // 4 go back to page
 
-        dropDownMenuButton.click();
-        orderButton.click();
+        WebElement dropDownMenuBtn = driver.findElement(By.id("navOrder"));
+        dropDownMenuBtn.click();
+        WebElement orderBtn = driver.findElement(By.xpath("/html[1]/body[1]/nav[1]/div[1]/div[2]/ul[1]/li[5]/ul[1]/li[2]/a[1]"));
+        orderBtn.click();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        // 5 Check the username in the brand page
+        // 5 Check the username in the order page
         WebElement orderTable= driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[2]/div[2]/table[1]/tbody[1]/tr[1]/td[3]"));
         String orderLabel = orderTable.getAttribute("innerHTML");
-        assertEquals("<h1>Apple</h1>", orderLabel);
-        System.out.println("Passed");
-
-
+        assertEquals("<h1><b>Smith</b></h1>", orderLabel);
 
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         reset();
-
 
     }
     //=== Support methods ===
@@ -87,23 +89,23 @@ public class EditOrderUsername extends BaseTest {
 
     @After
     public void reset() {
-        // 2. Go to category page and click on action button
-        WebElement dropDownMenuButton = driver.findElement(By.id("navOrder"));
-        dropDownMenuButton.click();
-        WebElement orderButton = driver.findElement(By.xpath("/html[1]/body[1]/nav[1]/div[1]/div[2]/ul[1]/li[5]/ul[1]/li[2]/a[1]"));
-        orderButton.click();
+        // 2. Go to order page and click on action button
+        WebElement dropDownMenuBt = driver.findElement(By.id("navOrder"));
+        dropDownMenuBt.click();
+        WebElement orderBt = driver.findElement(By.xpath("/html[1]/body[1]/nav[1]/div[1]/div[2]/ul[1]/li[5]/ul[1]/li[2]/a[1]"));
+        orderBt.click();
 
         WebElement actionButton  = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[2]/div[2]/table[1]/tbody[1]/tr[1]/td[7]/div[1]/button[1]"));
         actionButton.click();
         WebElement dropDownEditButton = driver.findElement(By.id("editOrderModalBtn"));
         dropDownEditButton.click();
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        // 3. Change admin's username inserting a XSS attack vector
+        // 3. Reset client name and contact
         WebElement editClientName = driver.findElement(By.id("clientName"));
         WebElement editClientNumber = driver.findElement(By.id("clientContact"));
         editClientName.clear();
@@ -113,15 +115,6 @@ public class EditOrderUsername extends BaseTest {
 
         WebElement saveOrderButton = driver.findElement(By.id("editOrderBtn"));
         saveOrderButton.click();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        // 4 go back to page
-
-        dropDownMenuButton.click();
-        orderButton.click();
     }
 }

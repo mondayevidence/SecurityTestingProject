@@ -20,7 +20,7 @@ public class EditProductUsername extends BaseTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // 2. Go to category page and click on action button
+        // 2. Go to product page and click on action button
         WebElement productButton = driver.findElement(By.xpath("/html[1]/body[1]/nav[1]/div[1]/div[2]/ul[1]/li[4]/a[1]"));
         productButton.click();
         WebElement actionButton  = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]/table[1]/tbody[1]/tr[1]/td[8]/div[1]/button[1]"));
@@ -28,14 +28,12 @@ public class EditProductUsername extends BaseTest {
         WebElement dropDownEditButton = driver.findElement(By.id("editProductModalBtn"));
         dropDownEditButton.click();
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-
-
-        // 3. Change admin's username inserting a XSS attack vector
+        // 3. Change product name by inserting a XSS attack vector
         WebElement productInfo = driver.findElement(By.xpath("//a[contains(text(),'Product Info')]"));
         productInfo.click();
         WebElement editProductName = driver.findElement(By.id("editProductName"));
@@ -51,25 +49,17 @@ public class EditProductUsername extends BaseTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
-        // 4 Check the username in the brand page
+        // 4 Check the product name in the product page
         WebElement prodTable= driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]/table[1]/tbody[1]/tr[1]/td[2]"));
-        String prodLabel = prodTable.getAttribute("innerHTML");
-        assertEquals("<h1>Apple</h1>", prodLabel);
-        System.out.println("Passed");
-
-
+        String innerHtml = prodTable.getAttribute("innerHTML");
+        assertEquals("<h1>Samsung</h1>", innerHtml);
 
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         reset();
-
-
     }
     //=== Support methods ===
     private void login(String username, String password) {
@@ -84,7 +74,7 @@ public class EditProductUsername extends BaseTest {
     @After
     public void reset() {
 
-        // 2. Go to category page and click on action button
+        // 2. Go to product page and click on action button
 
         WebElement productButton = driver.findElement(By.xpath("/html[1]/body[1]/nav[1]/div[1]/div[2]/ul[1]/li[4]/a[1]"));
         productButton.click();
@@ -93,11 +83,11 @@ public class EditProductUsername extends BaseTest {
         WebElement dropDownEditButton = driver.findElement(By.id("editProductModalBtn"));
         dropDownEditButton.click();
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // 3. Change admin's username inserting a XSS attack vector
+        // 3. Reset product name
         WebElement productInfo = driver.findElement(By.xpath("//a[contains(text(),'Product Info')]"));
         productInfo.click();
         WebElement editProductName = driver.findElement(By.id("editProductName"));
@@ -108,11 +98,5 @@ public class EditProductUsername extends BaseTest {
         WebElement closeButton = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/form[1]/div[8]/button[1]"));
         saveButton.click();
         closeButton.click();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
     }
 }

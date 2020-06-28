@@ -2,7 +2,6 @@ package pages;
 
 import org.junit.After;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import utils.BaseTest;
@@ -30,12 +29,12 @@ public class BrandNameFetchBrandName extends BaseTest {
         WebElement dropDownEditButton = driver.findElement(By.xpath("//div[@class='btn-group open']//li[1]//a[1]"));
         dropDownEditButton.click();
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        // 3. Change admin's username inserting a XSS attack vector
+        // 3. Change brand name by inserting a XSS attack vector
         WebElement editBrandName = driver.findElement(By.id("editBrandName"));
         editBrandName.clear();
         editBrandName.sendKeys("<h1>Apple</h1>");
@@ -50,13 +49,10 @@ public class BrandNameFetchBrandName extends BaseTest {
             e.printStackTrace();
         }
 
-        // 4 Check the username in the brand page
-        WebElement brandTable= driver.findElement(By.xpath("//tr[1]//td[1]"));
-        String brandLabel = brandTable.getAttribute("h1 xpath");
+        // 4 Check the brand name in the brand page
+        WebElement brandTable= driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]/table[1]/tbody[1]/tr[1]/td[1]"));
+        String brandLabel = brandTable.getAttribute("innerHTML");
         assertEquals("<h1>Apple</h1>", brandLabel);
-        System.out.println("Passed");
-
-
 
         try {
             Thread.sleep(1000);
@@ -88,12 +84,12 @@ public class BrandNameFetchBrandName extends BaseTest {
         WebElement dropDownEditButton = driver.findElement(By.xpath("//div[@class='btn-group open']//li[1]//a[1]"));
         dropDownEditButton.click();
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        // 3. Change admin's username inserting a XSS attack vector
+        // 3. Reset brand name
         WebElement editBrandName = driver.findElement(By.id("editBrandName"));
         editBrandName.clear();
         editBrandName.sendKeys("Apple");
@@ -102,11 +98,7 @@ public class BrandNameFetchBrandName extends BaseTest {
         WebElement closeButton = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/form[1]/div[3]/button[1]"));
         saveButton.click();
         closeButton.click();
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
 
 
     }
