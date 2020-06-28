@@ -13,7 +13,7 @@ public class BaseTest {
         System.setProperty("webdriver.chrome.driver", ".idea/resources/chromedriver");
         driver = new ChromeDriver();
         driver.get(URL);
-        //driver.manage().window().maximize();
+        driver.manage().window().maximize();
 
     }
     @After
